@@ -101,15 +101,15 @@
             <div class="glass-card rounded-[3rem] shadow-2xl p-12 space-y-8">
                 <div class="text-center space-y-3">
                     <div class="inline-block bg-slate-900 text-white text-[10px] font-black px-5 py-1.5 rounded-full uppercase tracking-[0.2em] mb-2 shadow-xl shadow-slate-200">Simulado Académico</div>
-                    <h2 class="text-4xl font-black text-slate-800 tracking-tight leading-none uppercase">Labor Juris Quiz</h2>
-                    <p class="text-slate-500 font-medium text-sm">Preparatório N1 • 2026</p>
+                    <h2 class="text-4xl font-black text-slate-800 tracking-tight leading-none uppercase tracking-tighter">Direito N1</h2>
+                    <p class="text-slate-500 font-medium text-sm">Exclusivo para Alunos Prof. Ana Paula Labre</p>
                 </div>
                 <div class="space-y-5">
                     <div class="space-y-2">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Seu Nome Institucional</label>
                         <input type="text" id="input-name" placeholder="Nome Completo" class="w-full bg-slate-50 p-5 rounded-2xl border-2 border-transparent focus:border-blue-600 focus:bg-white outline-none transition-all font-bold placeholder:text-slate-300 shadow-inner">
                     </div>
-                    <button onclick="goToArchetypes()" class="w-full bg-slate-900 text-white font-black py-6 rounded-[2rem] shadow-2xl shadow-slate-300 hover:bg-blue-600 transition-all active:scale-95 uppercase tracking-widest text-xs">INICIAR CONSULTORIA</button>
+                    <button onclick="goToArchetypes()" class="w-full bg-slate-900 text-white font-black py-6 rounded-[2rem] shadow-2xl shadow-slate-300 hover:bg-blue-600 transition-all active:scale-95 uppercase tracking-widest text-xs">INICIAR SIMULADO</button>
                 </div>
             </div>
         </div>
@@ -117,7 +117,7 @@
         <!-- Archetype Screen -->
         <div id="screen-archetypes" class="hidden-screen w-full max-w-6xl space-y-10 animate-fade-in flex flex-col items-center">
             <div class="text-center space-y-3">
-                <h2 class="text-4xl font-black text-slate-800 tracking-tight uppercase">Vosso Perfil Consultivo</h2>
+                <h2 class="text-4xl font-black text-slate-800 tracking-tight uppercase tracking-tighter">Vosso Perfil Consultivo</h2>
                 <p class="text-slate-500 font-medium">Selecione a identidade jurídica que irá assumir no ranking.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full px-6">
@@ -166,12 +166,12 @@
                         </button>
                     </div>
 
-                    <!-- Análise IA -->
+                    <!-- Analise IA (Norte para o Aluno) -->
                     <div id="ai-response-box" class="hidden bg-slate-900 text-slate-300 p-10 rounded-[2.5rem] text-base leading-relaxed border border-slate-700 shadow-2xl animate-fade-in relative ring-4 ring-blue-600/20">
                         <div class="absolute top-6 right-8 text-blue-500 opacity-20 animate-pulse"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Z"/><path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M12 12v.01"/></svg></div>
                         <p class="text-blue-400 font-black text-[10px] uppercase tracking-[0.4em] mb-5">Análise Consultiva • Mentor Virtual Gemini</p>
-                        <div id="ai-text" class="custom-scrollbar max-h-56 overflow-y-auto pr-6 font-medium italic leading-loose">A preparar a orientação estratégica baseada no caso...</div>
-                        <button onclick="document.getElementById('ai-response-box').classList.add('hidden')" class="mt-8 text-[10px] font-black uppercase text-slate-500 hover:text-white transition-colors tracking-widest border-b border-transparent hover:border-white">Fechar Análise</button>
+                        <div id="ai-text" class="custom-scrollbar max-h-56 overflow-y-auto pr-6 font-medium italic leading-loose">Analisando os factos para fornecer uma orientação estratégica...</div>
+                        <button onclick="this.parentElement.classList.add('hidden')" class="mt-8 text-[10px] font-black uppercase text-slate-500 hover:text-white transition-colors tracking-widest border-b border-transparent hover:border-white">Fechar Análise</button>
                     </div>
                 </div>
 
@@ -225,7 +225,7 @@
     </main>
 
     <!-- Footer Corporativo -->
-    <footer class="bg-slate-950 text-slate-500 py-16 px-8 border-t border-slate-900 mt-auto">
+    <footer class="bg-slate-950 text-slate-500 py-16 px-8 border-t border-slate-900 mt-auto shadow-[0_-20px_50px_rgba(0,0,0,0.1)]">
         <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
             
             <div class="space-y-4 text-center lg:text-left">
@@ -244,7 +244,7 @@
 
             <div class="flex flex-col items-center">
                 <div class="text-center mb-6">
-                    <p class="text-[8px] font-black uppercase tracking-[0.8em] text-slate-600 mb-2">Desenvolvedor da Solução</p>
+                    <p class="text-[8px] font-black uppercase tracking-[0.8em] text-slate-600 mb-2 uppercase">Desenvolvedor da Solução</p>
                     <p class="text-white font-black text-2xl tracking-tighter uppercase leading-none">Benedito Palheta</p>
                 </div>
                 <a href="https://wa.me/5563981202076" target="_blank" class="flex items-center gap-3 bg-emerald-600 hover:bg-emerald-500 text-white px-10 py-4 rounded-full text-[10px] font-black shadow-2xl transition-all uppercase tracking-widest hover:scale-105 active:scale-95">
@@ -254,7 +254,7 @@
             </div>
 
             <div class="hidden lg:flex flex-col items-end">
-                <p class="text-[9px] text-slate-700 leading-relaxed text-right uppercase tracking-[0.4em] font-black italic">Labor Juris Quiz v2.6 Professional<br>© 2026 Palmas/TO - Brasil</p>
+                <p class="text-[9px] text-slate-700 leading-relaxed text-right uppercase tracking-[0.4em] font-black italic">Labor Juris Quiz v2.6 Enterprise<br>© 2026 Palmas/TO - Brasil</p>
             </div>
         </div>
     </footer>
@@ -265,20 +265,21 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // CONFIG & KEY (Segurança de Variáveis)
+        // CONFIG & KEY (Segurança de Variáveis com bypass para navegador padrão)
         let fbConfig = {};
         try {
             if (typeof __firebase_config !== 'undefined') {
                 fbConfig = typeof __firebase_config === 'string' ? JSON.parse(__firebase_config) : __firebase_config;
             }
-        } catch (e) { console.warn("Configurações de nuvem não detetadas."); }
+        } catch (e) { console.warn("Firebase Config não disponível."); }
 
         const apiKey = "AIzaSyBfCdYbZCrCkFALpd4knQ1Y25rfuZWKHFA";
 
-        const app = initializeApp(fbConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'n1-labor-juris-final';
+        // Inicializar apps apenas se houver configuração, caso contrário funciona localmente
+        const app = (fbConfig && fbConfig.apiKey) ? initializeApp(fbConfig) : null;
+        const auth = app ? getAuth(app) : null;
+        const db = app ? getFirestore(app) : null;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'labor-juris-n1';
 
         const QUIZ_DATA = [
             { id: 1, case: "Caso João (Mecânico)", question: "João trabalhava das 08h às 20h (contrato até 18h). Qual o adicional mínimo constitucional para estas horas extras?", options: ["20%", "50%", "100%", "40%"], correct: 1, explanation: "A Constituição e a CLT estabelecem o adicional mínimo de 50% sobre o valor da hora normal para o trabalho extraordinário." },
@@ -319,29 +320,35 @@
 
         // UI HELPERS
         const showScreen = (id) => {
-            const screens = ['loading', 'landing', 'archetypes', 'quiz', 'result'];
-            screens.forEach(s => {
-                const el = document.getElementById(`screen-${s}`);
-                if (el) el.classList.add('hidden-screen');
-            });
+            const loader = document.getElementById('screen-loading');
+            if (loader) loader.style.display = 'none';
+            
+            const screens = ['landing', 'archetypes', 'quiz', 'result'];
+            screens.forEach(s => document.getElementById(`screen-${s}`)?.classList.add('hidden-screen'));
+            
             const target = document.getElementById(`screen-${id}`);
             if (target) {
                 target.classList.remove('hidden-screen');
                 if (id === 'quiz') target.style.display = 'flex';
-                if (id === 'archetypes' || id === 'landing') target.style.display = 'flex';
+                else if (id === 'archetypes' || id === 'landing') target.style.display = 'flex';
             }
         };
 
-        // AUTH & BYPASS
-        const initAuthSystem = async () => {
-            // Backup Timer: Se em 4 segundos nada acontecer, força a entrada
-            const safety = setTimeout(() => {
-                if (document.getElementById('screen-loading').style.display !== 'none') {
-                    console.warn("Bypass ativado.");
-                    showScreen('landing');
-                }
-            }, 4000);
+        // BYPASS TIMER (Garante que o carregamento não trava o utilizador)
+        const safetyTimer = setTimeout(() => {
+            const loader = document.getElementById('screen-loading');
+            if (loader && loader.style.display !== 'none') {
+                console.warn("Ligação lenta - Entrando em modo local.");
+                showScreen('landing');
+            }
+        }, 3000);
 
+        // AUTH & INICIALIZAÇÃO
+        const initAuthSystem = async () => {
+            if (!auth) { 
+                showScreen('landing'); 
+                return; 
+            }
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
@@ -354,19 +361,24 @@
             }
         };
 
-        onAuthStateChanged(auth, (u) => {
-            if (u) { 
-                currentUser = u; 
-                showScreen('landing'); // Primeiro garantimos a UI
-                loadRankings(); // Depois carregamos dados
-            }
-        });
-
-        initAuthSystem();
+        if (auth) {
+            onAuthStateChanged(auth, (u) => {
+                if (u) { 
+                    currentUser = u; 
+                    clearTimeout(safetyTimer);
+                    loadRankings(); 
+                    showScreen('landing'); 
+                }
+            });
+            initAuthSystem();
+        } else {
+            // Se não houver Firebase, vai direto
+            setTimeout(() => showScreen('landing'), 500);
+        }
 
         // FIRESTORE
         const loadRankings = () => {
-            if (!currentUser) return;
+            if (!currentUser || !db) return;
             try {
                 const q = collection(db, 'artifacts', appId, 'public', 'data', 'rankings');
                 onSnapshot(q, (snapshot) => {
@@ -378,7 +390,7 @@
                         document.getElementById('record-score').textContent = rankings[0].score;
                     }
                     updateResultRanking();
-                }, (err) => console.log("Acesso à base de dados restrito."));
+                }, (err) => console.log("Acesso à base de dados restrito (modo local)."));
             } catch (e) {}
         };
 
@@ -403,13 +415,13 @@
             document.getElementById('search-input').value = topic;
         };
 
-        // GEMINI AI - ORIENTAÇÃO
+        // GEMINI AI - NORTE ESTRATÉGICO
         async function fetchAI(url, options, retries = 3, delay = 1000) {
             try {
                 const res = await fetch(url, options);
-                if (!res.ok) throw new Error();
+                if (!res.ok) throw new Error("API Error");
                 const json = await res.json();
-                if (!json.candidates) throw new Error();
+                if (!json.candidates || json.candidates.length === 0) throw new Error("Empty Response");
                 return json;
             } catch (err) {
                 if (retries > 0) {
@@ -426,12 +438,16 @@
             const btn = document.getElementById('btn-ai');
             
             box.classList.remove('hidden');
-            text.innerHTML = "O consultor está a analisar os factos para fornecer um norte estratégico...";
+            text.innerHTML = "O consultor jurídico está a analisar o caso para lhe dar um norte...";
             btn.disabled = true;
 
             const q = QUIZ_DATA[currentIndex];
-            const systemPrompt = `Você é um Mentor Jurídico de Elite especializado em Direito Processual do Trabalho. Forneça uma análise técnica para dar um 'norte' ao estudante sem revelar a resposta. Seja pedagógico e cite a CLT ou Constituição. Máximo 3 parágrafos curtos. Nunca diga a alternativa correta.`;
-            const userQuery = `Analise este caso jurídico: ${q.case}. A pergunta central é: ${q.question}`;
+            const systemPrompt = `Você é um Mentor Jurídico especializado em Direito Processual do Trabalho. 
+            Dê um 'norte' (uma orientação pedagógica) ao aluno para este caso sem revelar a resposta. 
+            Aponte o foco jurídico (ex: prazos, prova, garantias) e cite a base legal (CLT ou CF). 
+            Seja breve, executivo e aja como um consultor sénior.`;
+            
+            const userQuery = `Dê uma orientação para o caso: ${q.case}. Pergunta: ${q.question}`;
 
             try {
                 const result = await fetchAI(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
@@ -446,7 +462,7 @@
                 const aiMsg = result.candidates[0].content.parts[0].text;
                 text.innerHTML = aiMsg.replace(/\n/g, '<br>');
             } catch (e) {
-                text.innerHTML = "<span class='text-rose-400 font-bold'>Aviso:</span> O consultor está em audiência e não pôde responder agora. <br><br><b>Dica Estratégica:</b> Foque na proteção da lei para este caso específico e nos prazos processuais.";
+                text.innerHTML = "O consultor virtual está indisponível. <br><br><b>Norte sugerido:</b> Relembre os prazos processuais e os princípios da proteção discutidos em aula.";
             } finally {
                 btn.disabled = false;
             }
@@ -524,7 +540,7 @@
         const finalize = async () => {
             showScreen('result');
             document.getElementById('final-score').textContent = score;
-            if (currentUser) {
+            if (currentUser && db) {
                 try {
                     await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'rankings'), {
                         name: userName,
@@ -540,7 +556,7 @@
             const list = document.getElementById('ranking-list');
             if (!list) return;
             list.innerHTML = rankings.slice(0, 15).map((r, i) => `
-                <div class="flex items-center justify-between p-6 rounded-[2rem] transition-all ${r.userId === currentUser?.uid ? 'bg-blue-600 text-white shadow-2xl scale-105 ring-4 ring-blue-100' : 'bg-slate-50 border border-slate-100'}">
+                <div class="flex items-center justify-between p-6 rounded-[2rem] transition-all ${currentUser && r.userId === currentUser.uid ? 'bg-blue-600 text-white shadow-2xl scale-105 ring-4 ring-blue-100' : 'bg-slate-50 border border-slate-100'}">
                     <div class="flex items-center gap-6">
                         <span class="font-black text-xs w-8 ${i === 0 ? 'text-yellow-500' : 'text-slate-300'} leading-none">${i+1}º</span>
                         <span class="font-black text-sm truncate max-w-[150px] uppercase tracking-tight">${r.name}</span>
