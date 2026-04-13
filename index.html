@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labor Juris Quiz - HTML Version</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        .hidden-screen { display: none; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Decoração de Fundo -->
+    <div class="fixed top-0 left-0 w-full h-full pointer-events-none opacity-[0.03] z-0 overflow-hidden select-none flex items-center justify-center">
+        <div class="text-[30rem] font-black">LEX</div>
+    </div>
+
+    <!-- Container Principal -->
+    <main id="app-container" class="relative z-10 w-full max-w-2xl flex flex-col items-center">
+        
+        <!-- Loading Screen -->
+        <div id="screen-loading" class="flex flex-col items-center gap-4 text-slate-400">
+            <svg class="animate-spin h-10 w-10 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="font-bold uppercase tracking-widest text-xs">Conectando à Rede Juris...</p>
+        </div>
+
+        <!-- Landing Screen -->
+        <div id="screen-landing" class="hidden-screen w-full flex flex-col items-center space-y-6 animate-fade-in">
+            <div class="text-center space-y-4">
+                <h1 class="text-5xl font-extrabold text-slate-900 tracking-tight">Labor Juris <span class="text-blue-600">Quiz</span></h1>
+                <p class="text-lg text-slate-600">Enfrente 26 questões fundamentais de Direito do Trabalho.</p>
+            </div>
+
+            <!-- Card de Recorde -->
+            <div id="record-card" class="hidden w-full bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-200 rounded-2xl p-4 flex items-center justify-between shadow-sm">
+                <div class="flex items-center gap-3">
+                    <div class="bg-yellow-400 p-2 rounded-lg text-white shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.5 3.5 6.5 1 1.5 1.5 2.5 1.5 3.5a5 5 0 1 1-10 0c0-1.38.5-2.5 1.5-4.5.5 1.5 1 2.5 1 4.5z"/></svg>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-yellow-700 uppercase tracking-widest">Recorde a Bater</p>
+                        <p id="record-name" class="text-sm font-black text-slate-800">-</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p id="record-score" class="text-2xl font-black text-yellow-600">0</p>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase">Pontos XP</p>
+                </div>
+            </div>
+
+            <div class="w-full max-w-sm bg-white p-8 rounded-2xl shadow-xl border border-slate-100 space-y-4">
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-700">Identificação do Aluno</label>
+                    <input type="text" id="input-name" placeholder="Digite seu nome..." class="w-full p-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                </div>
+                <button onclick="goToArchetypes()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
+                    Escolher Arquétipo <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Archetype Screen -->
+        <div id="screen-archetypes" class="hidden-screen w-full flex flex-col items-center space-y-8 animate-fade-in">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-slate-900">Selecione seu Arquétipo</h2>
+                <p class="text-slate-500">Sua identidade no ranking da turma.</p>
+            </div>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+                <div onclick="selectArch('lawyer')" id="arch-lawyer" class="arch-card cursor-pointer p-4 rounded-2xl border-2 border-slate-100 bg-white hover:border-blue-200 transition-all flex flex-col items-center text-center">
+                    <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                    </div>
+                    <span class="font-bold text-sm">Advogado</span>
+                </div>
+                <div onclick="selectArch('judge')" id="arch-judge" class="arch-card cursor-pointer p-4 rounded-2xl border-2 border-slate-100 bg-white hover:border-blue-200 transition-all flex flex-col items-center text-center">
+                    <div class="w-12 h-12 rounded-full bg-purple-600 text-white flex items-center justify-center mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 12-8.5 8.5a2.12 2.12 0 1 1-3-3L11 9"/><path d="M15 13 9 7"/><path d="m21 5-1-1-10 7 8.15 8.15a.5.5 0 0 0 .7 0L21 17a.5.5 0 0 0 0-.7L13 8l7-10Z"/></svg>
+                    </div>
+                    <span class="font-bold text-sm">Juiz</span>
+                </div>
+                <div onclick="selectArch('scholar')" id="arch-scholar" class="arch-card cursor-pointer p-4 rounded-2xl border-2 border-slate-100 bg-white hover:border-blue-200 transition-all flex flex-col items-center text-center">
+                    <div class="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/></svg>
+                    </div>
+                    <span class="font-bold text-sm">Doutrinador</span>
+                </div>
+                <div onclick="selectArch('intern')" id="arch-intern" class="arch-card cursor-pointer p-4 rounded-2xl border-2 border-slate-100 bg-white hover:border-blue-200 transition-all flex flex-col items-center text-center">
+                    <div class="w-12 h-12 rounded-full bg-orange-500 text-white flex items-center justify-center mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <span class="font-bold text-sm">Estagiário</span>
+                </div>
+            </div>
+            <button onclick="startQuiz()" id="btn-start" disabled class="bg-slate-900 disabled:bg-slate-300 text-white font-bold px-12 py-4 rounded-xl shadow-xl transition-all">Iniciar Maratona</button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="screen-quiz" class="hidden-screen w-full bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100 animate-fade-in">
+            <div class="h-2 bg-slate-100 w-full">
+                <div id="progress-bar" class="h-full bg-blue-600 transition-all duration-500" style="width: 0%"></div>
+            </div>
+            <div class="p-8 space-y-6">
+                <div class="flex justify-between items-center text-sm font-medium">
+                    <span id="question-counter" class="text-slate-400 font-bold uppercase">Questão 1 de 26</span>
+                    <div class="flex gap-4">
+                        <button onclick="toggleHint()" id="btn-hint" class="flex items-center gap-1 px-3 py-1 rounded-full bg-slate-100 text-slate-500 hover:bg-yellow-50 transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg> <span>Dica</span>
+                        </button>
+                        <span id="current-xp" class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-bold">XP: 0</span>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <span id="question-case" class="text-xs font-bold text-blue-600 uppercase tracking-widest bg-blue-50 px-2 py-1 rounded">Caso</span>
+                    <h2 id="question-text" class="text-2xl font-bold text-slate-800 leading-tight">Texto da pergunta</h2>
+                    <div id="hint-box" class="hidden bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-2 animate-fade-in">
+                        <p id="hint-text" class="text-sm text-yellow-800 italic font-medium"></p>
+                    </div>
+                </div>
+
+                <div id="options-container" class="grid gap-3"></div>
+
+                <div id="feedback-box" class="hidden p-5 rounded-2xl animate-fade-in">
+                    <div class="flex gap-3">
+                        <div id="feedback-icon"></div>
+                        <div class="space-y-1">
+                            <p id="feedback-title" class="font-bold"></p>
+                            <div class="text-sm text-slate-700 leading-relaxed bg-white/50 p-3 rounded-lg mt-2 shadow-inner">
+                                <span class="font-bold text-slate-900 block mb-1">Fundamentação:</span>
+                                <span id="feedback-explanation"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="nextQuestion()" class="mt-4 w-full bg-slate-900 text-white font-bold py-3 rounded-xl shadow-lg hover:bg-slate-800 transition-all flex items-center justify-center gap-2">
+                        Próxima Questão <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="screen-result" class="hidden-screen w-full max-w-md text-center space-y-8 animate-fade-in">
+            <svg class="text-yellow-400 mx-auto drop-shadow-lg" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+            
+            <div class="space-y-1">
+                <h2 class="text-3xl font-black text-slate-900">Simulado Finalizado!</h2>
+                <p class="text-slate-500 font-medium">Seu resultado foi salvo na nuvem da turma.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl shadow-xl border border-slate-100 space-y-6">
+                <div class="flex justify-around items-center divide-x divide-slate-100">
+                    <div class="px-4 text-center">
+                        <p id="final-score" class="text-4xl font-black text-blue-600">0</p>
+                        <p class="text-xs font-bold text-slate-400 uppercase mt-1">Sua Pontuação</p>
+                    </div>
+                    <div class="px-4 text-center flex flex-col items-center">
+                        <svg class="text-blue-500 mb-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                        <p class="text-xs font-bold text-slate-400 uppercase">Ranking</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-3 pt-4 border-t border-slate-50">
+                    <h3 class="font-bold text-slate-900 text-left flex items-center gap-2 mb-4">
+                        <svg class="text-yellow-500" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/></svg> Quadro de Honra
+                    </h3>
+                    <div id="ranking-list" class="space-y-2 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar"></div>
+                </div>
+            </div>
+
+            <button onclick="location.reload()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-4 rounded-2xl shadow-xl transition-all">Tentar Superar o Recorde</button>
+        </div>
+    </main>
+
+    <!-- FIREBASE & LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // CONFIG
+        const firebaseConfig = JSON.parse('__firebase_config');
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        // DATA
+        const QUIZ_DATA = [
+            { id: 1, case: "Caso João (Mecânico)", question: "João trabalhava das 08h às 20h, mas seu contrato era até as 18h. Qual o adicional mínimo para as horas extras não pagas?", options: ["20%", "50%", "100%", "30%"], correct: 1, hint: "Consulte o Artigo 7º da Constituição Federal.", explanation: "A Constituição Federal (Art. 7º, XVI) e a CLT estabelecem o adicional mínimo de 50% para horas extraordinárias." },
+            { id: 2, case: "Competência Territorial", question: "João trabalhava em Palmas/TO. Qual o foro competente para sua reclamação trabalhista?", options: ["Vara do Trabalho de Palmas", "Vara do Trabalho de São Paulo", "Qualquer Vara do país", "Vara Cível comum"], correct: 0, hint: "Onde o serviço foi efetivamente prestado?", explanation: "Pelo Art. 651 da CLT, a competência é determinada pela localidade onde o empregado presta serviços." },
+            { id: 3, case: "Insalubridade", question: "João tinha exposição constante a óleos minerais e graxas sem EPI. Isso gera direito a:", options: ["Periculosidade", "Apenas fornecimento de luvas", "Adicional de Insalubridade", "Danos Morais apenas"], correct: 2, hint: "Agentes químicos costumam gerar este adicional específico.", explanation: "A exposição a agentes químicos/minerais sem proteção adequada gera o direito ao adicional de insalubridade (Art. 189 CLT)." },
+            { id: 4, case: "Caso Fernanda (Gestante)", question: "Fernanda descobriu a gravidez de 2 meses no momento da dispensa. Qual sua garantia?", options: ["Aviso prévio em dobro", "Estabilidade provisória", "Seguro-desemprego antecipado", "Nenhuma, pois já foi demitida"], correct: 1, hint: "O estado gravídico protege contra dispensa arbitrária.", explanation: "A estabilidade gestacional existe mesmo se a gravidez for confirmada após a dispensa, desde que a concepção tenha ocorrido durante o contrato." },
+            { id: 5, case: "Estabilidade Gestacional", question: "Qual o período da estabilidade da gestante mencionado na aula?", options: ["Até o nascimento", "Até 3 meses após o parto", "Da confirmação até 5 meses após o parto", "Por 2 anos"], correct: 2, hint: "Lembre-se do período após o nascimento do bebê.", explanation: "O ADCT (Art. 10, II, b) garante estabilidade desde a confirmação (concepção) até 5 meses após o parto." },
+            { id: 6, case: "Prazos de Pagamento", question: "Qual o prazo que a empresa tem para pagar as verbas rescisórias após o término do contrato?", options: ["5 dias", "10 dias corridos", "30 dias", "No próximo quinto dia útil"], correct: 1, hint: "É um prazo de 'dezena'.", explanation: "O Art. 477 da CLT estabelece o prazo de 10 dias corridos para o pagamento das verbas após o término do contrato." },
+            { id: 7, case: "Caso João Pedro (Servente)", question: "João Pedro trabalhou 6 anos (2018-2024). Qual o prazo para ele ingressar com a ação?", options: ["5 anos", "2 anos após a rescisão", "1 ano", "10 anos"], correct: 1, hint: "Prazo para bater à porta do Judiciário.", explanation: "A prescrição BIENAL significa que o trabalhador tem 2 anos após a saída para entrar na justiça." },
+            { id: 8, case: "Prescrição Quinquenal", question: "Ao entrar com a ação, João Pedro pode pedir os direitos de qual período retroativo?", options: ["De todo o contrato (6 anos)", "Apenas do último ano", "Dos últimos 5 anos da data do ajuizamento", "Dos últimos 2 anos"], correct: 2, hint: "Quantos anos para trás o juiz olha?", explanation: "A prescrição QUINQUENAL limita os pedidos aos últimos 5 anos contados da data do ajuizamento da ação." },
+            { id: 9, case: "Salário Mínimo", question: "João Pedro recebia R$ 1.200,00, valor inferior ao salário mínimo. Esta prática é:", options: ["Legal por acordo", "Inconstitucional", "Permitida para serventes", "Aceitável se houver gorjeta"], correct: 1, hint: "O salário mínimo é uma garantia social pétrea.", explanation: "O salário mínimo é um direito constitucional (Art. 7º, IV) e não pode ser pago valor inferior para jornada integral." },
+            { id: 10, case: "Danos Morais", question: "João Pedro era humilhado publicamente pelo encarregado. Isso fundamenta:", options: ["Indenização por Danos Morais", "Rescisão por Justa Causa do empregado", "Apenas uma advertência à empresa", "Pedido de aumento salarial"], correct: 0, hint: "Ofensa à honra e dignidade.", explanation: "Humilhações constantes e exposição vexatória configuram dano moral extrapatrimonial." },
+            { id: 11, case: "Caso Carlos Henrique", question: "Qual a principal diferença entre Home Office e Teletrabalho segundo a aula?", options: ["O salário", "A distância física apenas", "A modalidade contratual (eventual vs. já contratado assim)", "Não há diferença"], correct: 2, hint: "Pense na natureza da contratação original.", explanation: "O Home Office costuma ser temporário/eventual, enquanto o Teletrabalho é uma modalidade contratual específica e preponderante fora da empresa." },
+            { id: 12, case: "Rescisão Indireta", question: "Carlos sofria assédio moral e decidiu sair. Qual o termo jurídico para o empregado 'dar as contas' por culpa da empresa?", options: ["Pedido de demissão comum", "Rescisão Indireta (Art. 483 CLT)", "Distrato", "Justa causa do funcionário"], correct: 1, hint: "É a justa causa do patrão.", explanation: "A Rescisão Indireta é a 'justa causa do empregador', garantindo ao trabalhador todas as verbas rescisórias." },
+            { id: 13, case: "FGTS em atraso", question: "Depósitos de FGTS feitos reiteradamente em atraso podem gerar:", options: ["Apenas multa de 10%", "Rescisão Indireta", "Perda do direito ao saque", "Aposentadoria compulsória"], correct: 1, hint: "É uma falta grave do empregador.", explanation: "A irregularidade reiterada no recolhimento do FGTS é falta grave do empregador que autoriza a rescisão indireta." },
+            { id: 14, case: "Audiência de Conciliação", question: "Qual o objetivo principal da primeira audiência na Justiça do Trabalho?", options: ["Punir o patrão", "Ouvir testemunhas", "Tentativa de acordo (Conciliação)", "Dar a sentença"], correct: 2, hint: "A Justiça do Trabalho busca resolver conflitos amigavelmente primeiro.", explanation: "A Justiça do Trabalho prioriza a conciliação para evitar o enriquecimento ilícito e resolver o conflito rapidamente." },
+            { id: 15, case: "Ausência do Reclamante", question: "O que acontece se o TRABALHADOR falta à audiência inaugural sem justificativa?", options: ["O juiz ganha a causa para ele", "O processo é arquivado", "É aplicada a Revelia", "O advogado responde por ele"], correct: 1, hint: "O processo 'pára' e volta para a gaveta.", explanation: "A ausência do reclamante (trabalhador) importa no arquivamento da reclamação e possível pagamento de custas." },
+            { id: 16, case: "Ausência da Reclamada", question: "O que acontece se a EMPRESA falta à audiência sem justificativa?", options: ["O processo é arquivado", "Nada, marca-se outra", "Revelia e Confissão quanto aos fatos", "Multa apenas"], correct: 2, hint: "O silêncio ou a falta aqui 'confirma' a acusação.", explanation: "A falta da empresa gera revelia, considerando verdadeiros os fatos narrados pelo trabalhador que não forem provados ao contrário." },
+            { id: 17, case: "Prazos para Defesa", question: "Até que momento a empresa pode apresentar sua contestação (defesa)?", options: ["24h após a citação", "Até a data da audiência de conciliação", "Em 15 dias úteis fixos", "Somente após a sentença"], correct: 1, hint: "É o momento da primeira 'conversa' no fórum.", explanation: "O prazo é até a audiência, podendo inclusive ser feita oralmente em 20 minutos no dia, se necessário." },
+            { id: 18, case: "Testemunhas", question: "No processo do trabalho, as testemunhas precisam ser arroladas (nomeadas) antes da audiência?", options: ["Sim, 15 dias antes", "Não, elas comparecem independentemente de intimação", "Sim, apenas por e-mail", "Somente se forem parentes"], correct: 1, hint: "Elas vão 'na mão' com o advogado.", explanation: "Diferente do Cível, no Trabalho as testemunhas geralmente comparecem 'espontaneamente' no dia da audiência." },
+            { id: 19, case: "Quantidade de Testemunhas", question: "No rito ordinário, quantas testemunhas cada parte pode levar?", options: ["Apenas 1", "Até 2", "Até 3", "Ilimitadas"], correct: 2, hint: "É o número da perfeição jurídica trabalhista.", explanation: "No rito ordinário, cada parte pode indicar até 3 testemunhas." },
+            { id: 20, case: "Embargos de Declaração", question: "Se a sentença tiver um erro de digitação (ex: nome errado ou valor trocado), qual o recurso?", options: ["Recurso Ordinário", "Recurso de Revista", "Embargos de Declaração", "Agravo de Instrumento"], correct: 2, hint: "Serve para 'declarar' o que ficou obscuro ou errado.", explanation: "Os Embargos servem para sanar omissão, contradição, obscuridade ou erro material na própria sentença." },
+            { id: 21, case: "Prazo dos Embargos", question: "Qual o prazo para interpor Embargos de Declaração?", options: ["2 dias", "5 dias", "8 dias", "15 dias"], correct: 1, hint: "Uma mão cheia de dias úteis.", explanation: "O prazo para Embargos de Declaração é de 5 dias úteis." },
+            { id: 22, case: "Caso Ribamar (OAB)", question: "A empresa pagou apenas metade da rescisão alegando 'Força Maior' (Pandemia). Isso é válido sem extinção da empresa?", options: ["Sim, é lei", "Não, exige extinção do estabelecimento ou acordo específico", "Sim, por decreto", "Somente se o funcionário aceitar"], correct: 1, hint: "A pandemia por si só não extingue contratos pela metade.", explanation: "A força maior (Art. 501 CLT) só justifica redução de verbas se houver a extinção da empresa ou do estabelecimento." },
+            { id: 23, case: "Ônus da Prova", question: "Quem deve provar as horas extras se a empresa tem mais de 20 funcionários?", options: ["Sempre o empregado", "A empresa (deve apresentar os cartões de ponto)", "O juiz deve investigar sozinho", "O sindicato"], correct: 1, hint: "Quem detém os cartões de ponto?", explanation: "Empresas com mais de 20 empregados têm o ônus de apresentar o registro de ponto; se não o fazem, presume-se verdadeira a jornada alegada pelo autor." },
+            { id: 24, case: "Instância Superior", question: "Se o juiz decidir contra o direito e eu quiser que o Tribunal (2ª Instância) reveja, qual o recurso?", options: ["Recurso Ordinário (RO)", "Habeas Corpus", "Apelação", "Agravo de Petição"], correct: 0, hint: "O recurso 'comum' no Direito do Trabalho.", explanation: "O Recurso Ordinário (RO) é o equivalente à Apelação do Cível, levando o caso ao TRT." },
+            { id: 25, case: "Perícia Técnica", question: "Qual o momento ideal para o reclamante pedir a perícia (insalubridade/periculosidade)?", options: ["Somente no dia da audiência", "Na petição inicial (reclamação trabalhista)", "Após a sentença", "No Recurso Ordinário"], correct: 1, hint: "Logo no começo do processo.", explanation: "Os pedidos de prova técnica devem ser feitos na inicial para que o juiz organize a instrução processual." },
+            { id: 26, case: "Réplica à Contestação", question: "Após a empresa se defender, o trabalhador tem direito de rebater os documentos. Isso se chama:", options: ["Tréplica", "Sentença", "Réplica ou Impugnação à Contestação", "Acórdão"], correct: 2, hint: "É a resposta à defesa.", explanation: "A réplica serve para o autor impugnar documentos e teses apresentadas pela defesa da empresa." }
+        ];
+
+        const ARCHETYPES = {
+            lawyer: { name: 'Advogado', color: 'bg-blue-500', icon: 'Briefcase' },
+            judge: { name: 'Juiz', color: 'bg-purple-600', icon: 'Gavel' },
+            scholar: { name: 'Doutrinador', color: 'bg-emerald-600', icon: 'Scale' },
+            intern: { name: 'Estagiário', color: 'bg-orange-500', icon: 'User' }
+        };
+
+        // STATE
+        let currentUser = null;
+        let currentStep = 'loading';
+        let userName = '';
+        let selectedArch = null;
+        let currentIndex = 0;
+        let score = 0;
+        let rankings = [];
+
+        // UI HELPERS
+        const showScreen = (id) => {
+            document.querySelectorAll('.hidden-screen').forEach(s => s.style.display = 'none');
+            document.getElementById(`screen-${id}`).style.display = 'flex';
+        };
+
+        // FIREBASE AUTH
+        onAuthStateChanged(auth, (u) => {
+            if (u) {
+                currentUser = u;
+                loadRankings();
+                showScreen('landing');
+            } else {
+                signInAnonymously(auth);
+            }
+        });
+
+        // RANKING FETCH
+        const loadRankings = () => {
+            const q = collection(db, 'artifacts', appId, 'public', 'data', 'rankings');
+            onSnapshot(q, (snapshot) => {
+                rankings = snapshot.docs.map(doc => doc.data()).sort((a, b) => b.score - a.score);
+                updateLandingRecord();
+                updateResultRanking();
+            });
+        };
+
+        const updateLandingRecord = () => {
+            if (rankings.length > 0) {
+                document.getElementById('record-card').classList.remove('hidden');
+                document.getElementById('record-name').textContent = rankings[0].name;
+                document.getElementById('record-score').textContent = rankings[0].score;
+            }
+        };
+
+        // NAVIGATION & ACTIONS
+        window.goToArchetypes = () => {
+            userName = document.getElementById('input-name').value;
+            if (!userName) return;
+            showScreen('archetypes');
+        };
+
+        window.selectArch = (id) => {
+            selectedArch = id;
+            document.querySelectorAll('.arch-card').forEach(c => c.classList.remove('border-blue-600', 'bg-blue-50'));
+            document.getElementById(`arch-${id}`).classList.add('border-blue-600', 'bg-blue-50');
+            document.getElementById('btn-start').disabled = false;
+        };
+
+        window.startQuiz = () => {
+            showScreen('quiz');
+            renderQuestion();
+        };
+
+        const renderQuestion = () => {
+            const q = QUIZ_DATA[currentIndex];
+            document.getElementById('question-counter').textContent = `Questão ${currentIndex + 1} de 26`;
+            document.getElementById('question-case').textContent = q.case;
+            document.getElementById('question-text').textContent = q.question;
+            document.getElementById('current-xp').textContent = `XP: ${score}`;
+            document.getElementById('progress-bar').style.width = `${((currentIndex + 1) / 26) * 100}%`;
+            document.getElementById('hint-text').textContent = q.hint;
+            document.getElementById('hint-box').classList.add('hidden');
+            document.getElementById('feedback-box').classList.add('hidden');
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full p-4 text-left rounded-xl border-2 border-slate-100 hover:border-blue-500 hover:bg-blue-50 text-slate-700 shadow-sm font-medium transition-all";
+                btn.textContent = opt;
+                btn.onclick = () => handleAnswer(idx, btn);
+                container.appendChild(btn);
+            });
+        };
+
+        window.toggleHint = () => {
+            document.getElementById('hint-box').classList.toggle('hidden');
+        };
+
+        const handleAnswer = (idx, btn) => {
+            const q = QUIZ_DATA[currentIndex];
+            const isCorrect = idx === q.correct;
+            if (isCorrect) score += 100;
+
+            document.querySelectorAll('#options-container button').forEach(b => b.disabled = true);
+            
+            const feedback = document.getElementById('feedback-box');
+            feedback.classList.remove('hidden');
+            feedback.className = `p-5 rounded-2xl animate-fade-in ${isCorrect ? 'bg-emerald-50 border border-emerald-200' : 'bg-rose-50 border border-rose-200'}`;
+            
+            document.getElementById('feedback-title').textContent = isCorrect ? 'Decisão Correcta!' : 'Vênia concedida, mas a lei diz o contrário.';
+            document.getElementById('feedback-explanation').textContent = q.explanation;
+            
+            document.getElementById('feedback-icon').innerHTML = isCorrect 
+                ? '<svg class="text-emerald-600 shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>'
+                : '<svg class="text-rose-600 shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>';
+
+            if (isCorrect) btn.className += " border-emerald-500 bg-emerald-50 text-emerald-700";
+            else btn.className += " border-rose-500 bg-rose-50 text-rose-700";
+        };
+
+        window.nextQuestion = () => {
+            if (currentIndex < 25) {
+                currentIndex++;
+                renderQuestion();
+            } else {
+                saveFinalScore();
+            }
+        };
+
+        const saveFinalScore = async () => {
+            showScreen('result');
+            document.getElementById('final-score').textContent = score;
+            await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'rankings'), {
+                name: userName,
+                archetype: selectedArch,
+                score: score,
+                timestamp: serverTimestamp(),
+                userId: currentUser.uid
+            });
+        };
+
+        const updateResultRanking = () => {
+            const list = document.getElementById('ranking-list');
+            list.innerHTML = '';
+            rankings.slice(0, 15).forEach((r, i) => {
+                const item = document.createElement('div');
+                const isMe = r.userId === currentUser?.uid;
+                item.className = `flex items-center justify-between p-3 rounded-xl transition-all ${isMe ? 'bg-blue-600 text-white shadow-lg scale-105' : 'bg-slate-50 hover:bg-slate-100'}`;
+                
+                const arch = ARCHETYPES[r.archetype];
+                item.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="font-black w-6 text-sm ${i === 0 ? 'text-yellow-500' : ''}">${i + 1}º</span>
+                        <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shadow-inner">
+                            <span class="text-[10px]">${arch.name[0]}</span>
+                        </div>
+                        <span class="font-bold text-sm truncate max-w-[150px]">${r.name}</span>
+                    </div>
+                    <span class="font-black text-sm">${r.score} XP</span>
+                `;
+                list.appendChild(item);
+            });
+        };
+
+    </script>
+</body>
+</html>
